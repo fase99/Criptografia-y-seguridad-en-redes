@@ -61,34 +61,81 @@ def cifrado3des(accion, word, key, iv):
 
 def main():
 
-    print(pyfiglet.figlet_format("LABORATORIO 4"))  
+    print(pyfiglet.figlet_format("LABORATORIO 4\n",)) 
 
-    print("OPCIONES [aes, des, 3des]")
+    while True:
+        print("OPCIONES [1 -> aes | 2 -> des | 3 -> 3des]")
+        algorithm = input("INGRESE TIPO DE CIFRADO: \n")
+        if algorithm in ["1", "2", "3"]:
+            break
+    
+    while True:
+        print("OPCIONES [1 -> cifrar | 2 -> descifrar]")
+        accion = input("INGRESE ACCION A REALIZAR: \n")
+        if accion in ["1", "2"]:
+            break
 
-    algorithm = input("INGRESE TIPO DE CIFRADO: ")
-    accion = input("INGRESE ACCION A REALIZAR: ")
-    key = input("INGRESE CLAVE: ")
-    iv = input("INGRESE IV: ")
+    key = input("INGRESE CLAVE: \n")
+    iv = input("INGRESE IV: \n")
+    
+    if accion == "1":
+        act = "cifrar"
+    elif accion == "2":
+        act = "descifrar"
 
-    if algorithm == "aes":
+    if algorithm == "1":
         key = keyComplete(key, 32)
         iv =  keyComplete(iv, 16)
-        word = input("INGRESE TEXTO A CIFRAR: ")
-        print(cifradoAES256(accion, word, key, iv))
+        if act == "cifrar":
+            word = input("INGRESE TEXTO A CIFRAR: ")
+            print(cifrado3des(act, word, key, iv), "\n")
+            print(f"Clave: {key}")
+            print(f"IV: {iv}\n")
+        else:
+            while True:
+                word = input("INGRESE CODIGO A DESCIFRAR (en base64): ")
+                try:
+                    base64.b64decode(word)
+                    break
+                except:
+                    print("CODIGO NO VALIDO, INGRESE NUEVAMENTE") 
+        print(cifradoAES256(act, word, key, iv))
 
-    elif algorithm == "des":
+    elif algorithm == "2":
         key = keyComplete(key, 8)
         iv =  keyComplete(iv, 8)
-        word = input("INGRESE TEXTO A CIFRAR: ")
-        print(cifradoDes(accion, word, key, iv))
+        if act == "cifrar":
+            word = input("INGRESE TEXTO A CIFRAR: ")
+            print(cifrado3des(act, word, key, iv), "\n")
+            print(f"Clave: {key}")
+            print(f"IV: {iv}\n")
+        else:
+            while True:
+                word = input("INGRESE CODIGO A DESCIFRAR (en base64): ")
+                try:
+                    base64.b64decode(word)
+                    break
+                except:
+                    print("CODIGO NO VALIDO, INGRESE NUEVAMENTE") 
+        print(cifradoDes(act, word, key, iv))
 
-    elif algorithm == "3des":
+    elif algorithm == "3":
         key = keyComplete(key, 24)
         iv =  keyComplete(iv, 8)
-        word = input("INGRESE TEXTO A CIFRAR: ")
-        print(cifrado3des(accion, word, key, iv))
+        if act == "cifrar":
+            word = input("INGRESE TEXTO A CIFRAR: ")
+            print(cifrado3des(act, word, key, iv), "\n")
+            print(f"Clave: {key}")
+            print(f"IV: {iv}\n")
+        else:
+            while True:
+                word = input("INGRESE CODIGO A DESCIFRAR (en base64): ")
+                try:
+                    print(cifrado3des(act, word, key, iv))
+                    break
+                except Exception as e:
+                    print(f"Error al descifrar: {e}. Por favor, intente de nuevo.")
         
-
 
 if __name__ == "__main__":
     main()
