@@ -11,12 +11,15 @@ import base64
 #se completan los bytes que faltan a la clave ingresada
 def keyComplete(key, tamanio_req):
     key = key.encode()
-    if len(key) < tamanio_req:
+    if len(key) > tamanio_req:
+        key = key[:tamanio_req]
+    elif len(key) < tamanio_req:
         key += get_random_bytes(tamanio_req - len(key))
     return key[:tamanio_req]
 
 
 def cifradoAES256(action,word, key, iv):
+    
     cipher = AES.new(key, AES.MODE_CBC, iv)
 
     if action == "cifrar":
@@ -31,6 +34,7 @@ def cifradoAES256(action,word, key, iv):
         return texto_plano.decode()
     
 def cifradoDes(accion, word, key, iv):
+
     cipher = DES.new(key, DES.MODE_CBC, iv)
 
     if accion == "cifrar":
@@ -45,7 +49,12 @@ def cifradoDes(accion, word, key, iv):
         return texto_plano.decode()
     
 def cifrado3des(accion, word, key, iv):
-    cipher = DES3.new(key, DES3.MODE_CBC, iv)
+    
+    try:
+        cipher = DES3.new(key, DES3.MODE_CBC, iv)
+    except ValueError:
+        key = DES3.adjust_key_parity(key)
+        cipher = DES3.new(key, DES3.MODE_CBC, iv)
 
     if accion == "cifrar":
         textBytes= pad(word.encode(), DES3.block_size)
@@ -87,8 +96,8 @@ def main():
         key = keyComplete(key, 32)
         iv =  keyComplete(iv, 16)
         if act == "cifrar":
-            word = input("INGRESE TEXTO A CIFRAR: ")
-            print(cifrado3des(act, word, key, iv), "\n")
+            word = input("INGRESE TEXTO A CIFRAR: \n")
+            #print(cifradoAES256(act, word, key, iv), "\n")
             print(f"Clave: {key}")
             print(f"IV: {iv}\n")
         else:
@@ -105,8 +114,8 @@ def main():
         key = keyComplete(key, 8)
         iv =  keyComplete(iv, 8)
         if act == "cifrar":
-            word = input("INGRESE TEXTO A CIFRAR: ")
-            print(cifrado3des(act, word, key, iv), "\n")
+            word = input("INGRESE TEXTO A CIFRAR: \n")
+            #print(cifradoDes(act, word, key, iv), "\n")
             print(f"Clave: {key}")
             print(f"IV: {iv}\n")
         else:
@@ -124,7 +133,6 @@ def main():
         iv =  keyComplete(iv, 8)
         if act == "cifrar":
             word = input("INGRESE TEXTO A CIFRAR: ")
-            print(cifrado3des(act, word, key, iv), "\n")
             print(f"Clave: {key}")
             print(f"IV: {iv}\n")
         else:
@@ -135,6 +143,7 @@ def main():
                     break
                 except Exception as e:
                     print(f"Error al descifrar: {e}. Por favor, intente de nuevo.")
+        print(cifrado3des(act, word, key, iv), "\n")
         
 
 if __name__ == "__main__":
