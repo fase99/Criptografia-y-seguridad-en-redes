@@ -14,7 +14,5 @@ Una herramienta de línea de comandos versátil para encriptar y desencriptar me
   Asegura una encriptación/desencriptación fluida para cualquier longitud de texto.
 - **Codificación Base64**  
   Los textos cifrados se codifican en Base64 para facilitar su intercambio.
-- **Interfaz de Usuario Amigable**  
-  Menú interactivo con estilo ASCII art (gracias a `pyfiglet`).
 
 ---
