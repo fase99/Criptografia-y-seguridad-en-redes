@@ -1,7 +1,5 @@
 # 🔐 CryptoTool - Herramienta de Encriptación/Desencriptación
 
-![Banner](https://via.placeholder.com/800x200.png?text=CryptoTool+-+Protege+tus+mensajes+con+AES,+DES,+3DES)
-
 Una herramienta de línea de comandos versátil para encriptar y desencriptar mensajes utilizando algoritmos populares como AES-256, DES y 3DES. Desarrollada con Python y mucho cariño ❤️.
 
 ---
